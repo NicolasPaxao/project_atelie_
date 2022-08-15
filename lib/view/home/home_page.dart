@@ -66,7 +66,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                     );
               },
-              child: Text('Criar Ficha Pedido'),
+              child: Text('Criar Ficha Pedid'),
             ),
           ],
         ),
