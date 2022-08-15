@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "732721064035",
+    "project_id": "projeto-atelie",
+    "storage_bucket": "projeto-atelie.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:732721064035:android:15dcd032c5b6a595b03056",
+        "android_client_info": {
+          "package_name": "com.example.atelie"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "732721064035-lfvkf5pnofcptqdb8p52orb8tubrm8rv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCgn_3kW-LEGDfdwoyQIRwMn9QVPIjZmoc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "732721064035-lfvkf5pnofcptqdb8p52orb8tubrm8rv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
