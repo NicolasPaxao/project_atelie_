@@ -36,12 +36,18 @@ class _LoginPageState extends State<LoginPage> {
           ),
           body: SingleChildScrollView(
             child: Padding(
-              padding: const EdgeInsets.only(top: 100),
+              padding: const EdgeInsets.only(top: 10),
               child: Form(
                 key: formKey,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    Image.asset(
+                      'assets/novelo.png',
+                      width: 120,
+                      height: 120,
+                      fit: BoxFit.fitWidth,
+                    ),
                     InputTextCustom(
                       controller:
                           context.read<LoginViewmodel>().emailController,
