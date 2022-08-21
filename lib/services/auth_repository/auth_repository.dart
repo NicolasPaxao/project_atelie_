@@ -1,3 +1,4 @@
+import 'package:atelie/models/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -33,13 +34,16 @@ class AuthRepository extends ChangeNotifier {
       final userRef = _db.collection('users');
       final userCredential = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
-
       final signedInUser = userCredential.user!;
-      await userRef.doc(signedInUser.uid).set({
-        "name": name,
-        "email": email,
-        "senha": password,
-      });
+      final user = UserModel(
+          id: signedInUser.uid,
+          name: name,
+          email: email,
+          password: password,
+          datasheets: [],
+          orders: []);
+      final userToJson = user.toJson();
+      await userRef.doc(signedInUser.uid).set(userToJson);
 
       _getUser();
     } on FirebaseAuthException catch (e) {

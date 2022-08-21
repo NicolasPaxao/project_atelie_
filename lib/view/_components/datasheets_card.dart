@@ -6,10 +6,12 @@ import 'package:flutter/material.dart';
 class DatasheetCard extends StatefulWidget {
   final String modeloEncomenda;
   final DatasheetModel model;
+  final String uid;
   DatasheetCard({
     Key? key,
     required this.modeloEncomenda,
     required this.model,
+    required this.uid,
   }) : super(key: key);
 
   @override
@@ -48,7 +50,7 @@ class _DatasheetCardState extends State<DatasheetCard> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Expanded(
-                      flex: 5,
+                      flex: 2,
                       child: Text(
                         '${widget.modeloEncomenda}',
                         style: TextStyle(

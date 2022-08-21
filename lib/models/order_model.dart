@@ -49,7 +49,7 @@ class OrderModel {
     return data;
   }
 
-  OrderModel.fromMap(Map<String, dynamic> json) {
+  OrderModel.fromJson(Map<String, dynamic> json) {
     cliente = json['cliente'];
     email = json['email'];
     telefone = json['telefone'];

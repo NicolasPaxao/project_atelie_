@@ -1,8 +1,11 @@
 import 'package:atelie/models/datasheet_model.dart';
+import 'package:atelie/services/datasheets_repository/datasheets_repository.dart';
 import 'package:atelie/view/view.dart';
 import 'package:clipboard/clipboard.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class DetailsDatasheet extends StatefulWidget {
   final DatasheetModel model;
@@ -13,6 +16,8 @@ class DetailsDatasheet extends StatefulWidget {
 }
 
 class _DetailsDatasheetState extends State<DetailsDatasheet> {
+  TextEditingController editingController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return LayoutCustom(
@@ -39,7 +44,8 @@ class _DetailsDatasheetState extends State<DetailsDatasheet> {
 |\tProduto - ${widget.model.modeloEncomenda}
 |\tFio Utilizado - ${widget.model.fioUtilizado}
 ''').then(
-                  (value) => print('copied'),
+                  (value) => ScaffoldMessenger.of(context)
+                      .showSnackBar(SnackBar(content: Text('Dados copiádos!'))),
                 );
               },
             ),
@@ -56,7 +62,42 @@ class _DetailsDatasheetState extends State<DetailsDatasheet> {
                 ],
               ),
               value: 'Deletar',
-              onTap: () {},
+              onTap: () {
+                Future.delayed(
+                  const Duration(seconds: 0),
+                  () => showDialog(
+                    context: context,
+                    builder: (context) {
+                      return StatefulBuilder(builder: ((context, setState) {
+                        return AlertDialog(
+                          title: Text('Realmente quer deletar essa ficha?'),
+                          actions: [
+                            TextButton(
+                              onPressed: () => Navigator.pop(context),
+                              child: Text('Cancelar'),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                context
+                                    .read<DatasheetRepository>()
+                                    .deleteDatasheet(widget.model.uid!);
+
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                        content: Text(
+                                            'Produto excluído com sucesso!')));
+                                Navigator.pop(context);
+                                Navigator.pop(context);
+                              },
+                              child: Text('Ok'),
+                            )
+                          ],
+                        );
+                      }));
+                    },
+                  ),
+                );
+              },
             ),
           ],
         )
@@ -110,13 +151,51 @@ class _DetailsDatasheetState extends State<DetailsDatasheet> {
                 ),
                 const SizedBox(height: 10),
                 Center(
-                  child: TextCustom(title: 'Detalhes', fontS: 22, isBold: true),
+                  child: TextCustom(
+                    title: 'Detalhes',
+                    fontS: 22,
+                    isBold: true,
+                  ),
                 ),
                 const SizedBox(height: 10),
                 EditField(
-                  onTap: () {},
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        editingController.text = widget.model.modeloEncomenda;
+                        return StatefulBuilder(
+                          builder: (context, setState) {
+                            return AlertDialog(
+                              content: TextFormField(
+                                controller: editingController,
+                                decoration: InputDecoration(labelText: 'Name'),
+                              ),
+                              actions: [
+                                TextButton(
+                                  onPressed: () => Navigator.pop(context),
+                                  child: Text('Cancel'),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    context
+                                        .read<DatasheetRepository>()
+                                        .editDatasheet(widget.model.uid!, {
+                                      "modeloEncomenda": editingController.text
+                                    });
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text('Ok'),
+                                )
+                              ],
+                            );
+                          },
+                        );
+                      },
+                    );
+                  },
                   title: 'Crochê: ',
-                  text: widget.model.fioUtilizado,
+                  text: widget.model.modeloEncomenda,
                 ),
                 const SizedBox(height: 20),
                 EditField(

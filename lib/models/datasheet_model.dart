@@ -1,4 +1,5 @@
 class DatasheetModel {
+  String? uid;
   final double precoEncomenda;
   final double precoFio;
   final double pesoUm;
@@ -21,9 +22,11 @@ class DatasheetModel {
     required this.modeloEncomenda,
     required this.tamanhoPeca,
     required this.tempoProducao,
+    this.uid = '',
   });
 
   static DatasheetModel fromJson(Map<String, dynamic> json) => DatasheetModel(
+        uid: json['uid'],
         precoEncomenda: json['precoEncomenda'],
         precoFio: json['precoFio'],
         pesoUm: json['pesoUm'],
@@ -37,6 +40,7 @@ class DatasheetModel {
       );
 
   Map<String, dynamic> toJson() => {
+        'uid': uid,
         'precoEncomenda': precoEncomenda,
         'precoFio': precoFio,
         'pesoUm': pesoUm,

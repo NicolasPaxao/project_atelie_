@@ -33,6 +33,7 @@ class _DatasheetPageState extends State<DatasheetPage> {
               child: Column(
                 children: ds.map(((e) {
                   return DatasheetCard(
+                    uid: e.uid!,
                     modeloEncomenda: e.modeloEncomenda,
                     model: e,
                   );
@@ -48,7 +49,56 @@ class _DatasheetPageState extends State<DatasheetPage> {
       ),
       floatButton: FloatingActionButton(
         backgroundColor: R.color.purplePrimary,
-        onPressed: () => context.read<DatasheetRepository>().createDatasheet(),
+        onPressed: () {
+          showDialog(
+            context: context,
+            builder: (context) {
+              final controller = TextEditingController();
+              return Dialog(
+                child: Container(
+                  height: 500,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        SizedBox(height: 20),
+                        TextCustom(
+                            title: 'Criar ficha!', fontS: 18, isBold: true),
+                        Container(
+                          child: InputTextCustom(
+                              labelText: 'Modelo',
+                              validator: null,
+                              controller: controller,
+                              onChaged: (String? value) {}),
+                        ),
+                        Container(
+                          child: InputTextCustom(
+                              labelText: 'Fio Utilizado',
+                              validator: null,
+                              controller: controller,
+                              onChaged: (String? value) {}),
+                        ),
+                        Container(
+                          child: InputTextCustom(
+                              labelText: 'Tamanho',
+                              validator: null,
+                              controller: controller,
+                              onChaged: (String? value) {}),
+                        ),
+                        Container(
+                          child: InputTextCustom(
+                              labelText: 'Tempo de Trabalho',
+                              validator: null,
+                              controller: controller,
+                              onChaged: (String? value) {}),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            },
+          );
+        },
         child: Icon(Icons.add),
       ),
     );
