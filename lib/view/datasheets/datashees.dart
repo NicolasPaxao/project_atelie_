@@ -79,7 +79,7 @@ class _DatasheetPageState extends State<DatasheetPage> {
                         ),
                         Container(
                           child: InputTextCustom(
-                              labelText: 'Tamanho',
+                              labelText: 'Tamanho da peça',
                               validator: null,
                               controller: controller,
                               onChaged: (String? value) {}),
@@ -91,6 +91,28 @@ class _DatasheetPageState extends State<DatasheetPage> {
                               controller: controller,
                               onChaged: (String? value) {}),
                         ),
+                        Container(
+                          child: InputTextCustom(
+                              labelText: 'Preço do Fio',
+                              validator: null,
+                              controller: controller,
+                              onChaged: (String? value) {}),
+                        ),
+                        Container(
+                          child: InputTextCustom(
+                              labelText: 'Preço da encomenda',
+                              validator: null,
+                              controller: controller,
+                              onChaged: (String? value) {}),
+                        ),
+                        TextButton(
+                            onPressed: () {
+                              context
+                                  .read<DatasheetRepository>()
+                                  .createDatasheet();
+                              Navigator.pop(context);
+                            },
+                            child: Text('TESTE'))
                       ],
                     ),
                   ),

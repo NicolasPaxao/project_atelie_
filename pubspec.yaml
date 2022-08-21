@@ -23,6 +23,8 @@ dependencies:
   cloud_firestore:
   clipboard:
   uuid:
+  image_picker:
+  flutter_easyloading:
 
 dev_dependencies:
   flutter_test:

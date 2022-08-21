@@ -1,8 +1,9 @@
+import 'dart:async';
+
 import 'package:atelie/models/datasheet_model.dart';
 import 'package:atelie/services/datasheets_repository/datasheets_repository.dart';
 import 'package:atelie/view/view.dart';
 import 'package:clipboard/clipboard.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -17,6 +18,45 @@ class DetailsDatasheet extends StatefulWidget {
 
 class _DetailsDatasheetState extends State<DetailsDatasheet> {
   TextEditingController editingController = TextEditingController();
+  _editField(String label, String path, String model, bool isDouble) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        editingController.text = model;
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return AlertDialog(
+              content: TextFormField(
+                controller: editingController,
+                decoration: InputDecoration(labelText: label),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: Text('Cancelar'),
+                ),
+                TextButton(
+                  onPressed: () {
+                    if (isDouble == false) {
+                      context.read<DatasheetRepository>().editDatasheet(
+                          widget.model.uid!,
+                          {"${path}": editingController.text});
+                    } else {
+                      context.read<DatasheetRepository>().editDatasheet(
+                          widget.model.uid!,
+                          {"${path}": double.parse(editingController.text)});
+                    }
+                    Navigator.pop(context);
+                  },
+                  child: Text('Ok'),
+                )
+              ],
+            );
+          },
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,8 +81,16 @@ class _DetailsDatasheetState extends State<DetailsDatasheet> {
               value: 'Copiar',
               onTap: () {
                 FlutterClipboard.copy('''
-|\tProduto - ${widget.model.modeloEncomenda}
-|\tFio Utilizado - ${widget.model.fioUtilizado}
+Produto - ${widget.model.modeloEncomenda}
+Fio Utilizado - ${widget.model.fioUtilizado}
+Tempo de Produção: - ${widget.model.tempoProducao}
+Tamanho da Peça - ${widget.model.tamanhoPeca} cm
+Preço do fio - ${NumberFormat.currency(locale: 'pt').format(widget.model.precoFio)}
+Preço da encomenda - ${NumberFormat.currency(locale: 'pt').format(widget.model.precoEncomenda)}
+Peso 1 Unid - ${widget.model.pesoUm} Kg
+Peso 4 Unid - ${widget.model.pesoQuatro} kg
+Peso 6 Unid - ${widget.model.pesoSeis} Kg
+Peso 8 Unid - ${widget.model.pesoOito} Kg
 ''').then(
                   (value) => ScaffoldMessenger.of(context)
                       .showSnackBar(SnackBar(content: Text('Dados copiádos!'))),
@@ -110,45 +158,6 @@ class _DetailsDatasheetState extends State<DetailsDatasheet> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Stack(
-                  children: [
-                    Container(
-                      width: double.infinity,
-                      height: 300,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(12),
-                        child: Image.network(
-                          'https://imagens-revista.vivadecora.com.br/uploads/2018/03/modelo-de-sousplat-colorido.jpg',
-                          filterQuality: FilterQuality.high,
-                          fit: BoxFit.fitWidth,
-                        ),
-                      ),
-                    ),
-                    Container(
-                      width: double.infinity,
-                      height: 300,
-                      decoration: BoxDecoration(
-                          color: Colors.black.withOpacity(0.08),
-                          borderRadius: BorderRadius.circular(12)),
-                    ),
-                    Align(
-                      alignment: Alignment.topRight,
-                      child: Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: IconButton(
-                          onPressed: () {},
-                          padding: EdgeInsets.zero,
-                          constraints: BoxConstraints(),
-                          icon: Icon(
-                            Icons.edit,
-                            color: Colors.white,
-                            size: 24,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
                 const SizedBox(height: 10),
                 Center(
                   child: TextCustom(
@@ -160,58 +169,36 @@ class _DetailsDatasheetState extends State<DetailsDatasheet> {
                 const SizedBox(height: 10),
                 EditField(
                   onTap: () {
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        editingController.text = widget.model.modeloEncomenda;
-                        return StatefulBuilder(
-                          builder: (context, setState) {
-                            return AlertDialog(
-                              content: TextFormField(
-                                controller: editingController,
-                                decoration: InputDecoration(labelText: 'Name'),
-                              ),
-                              actions: [
-                                TextButton(
-                                  onPressed: () => Navigator.pop(context),
-                                  child: Text('Cancel'),
-                                ),
-                                TextButton(
-                                  onPressed: () {
-                                    context
-                                        .read<DatasheetRepository>()
-                                        .editDatasheet(widget.model.uid!, {
-                                      "modeloEncomenda": editingController.text
-                                    });
-                                    Navigator.pop(context);
-                                  },
-                                  child: Text('Ok'),
-                                )
-                              ],
-                            );
-                          },
-                        );
-                      },
-                    );
+                    _editField('Modelo', 'modeloEncomenda',
+                        widget.model.modeloEncomenda, false);
                   },
                   title: 'Crochê: ',
                   text: widget.model.modeloEncomenda,
                 ),
                 const SizedBox(height: 20),
                 EditField(
-                  onTap: () {},
+                  onTap: () {
+                    _editField('Fio Utilizado', 'fioUtilizado',
+                        widget.model.fioUtilizado, false);
+                  },
                   title: 'Fio Utilizado: ',
                   text: widget.model.fioUtilizado,
                 ),
                 const SizedBox(height: 20),
                 EditField(
-                  onTap: () {},
+                  onTap: () {
+                    _editField('Tempo de produção', 'tempoProducao',
+                        widget.model.tempoProducao, false);
+                  },
                   title: 'Tempo de produção: ',
                   text: widget.model.tempoProducao,
                 ),
                 const SizedBox(height: 20),
                 EditField(
-                  onTap: () {},
+                  onTap: () {
+                    _editField('Tamanho', 'tamanhoPeca',
+                        widget.model.tamanhoPeca, false);
+                  },
                   title: 'Tamanho: ',
                   text: '${widget.model.tamanhoPeca} cm',
                 ),
@@ -221,14 +208,20 @@ class _DetailsDatasheetState extends State<DetailsDatasheet> {
                 ),
                 const SizedBox(height: 10),
                 EditField(
-                  onTap: () {},
+                  onTap: () {
+                    _editField('Preço do Fio', 'precoFio',
+                        widget.model.precoFio.toString(), true);
+                  },
                   title: 'Preço do Fio: ',
                   text:
                       '${NumberFormat.currency(locale: 'pt').format(widget.model.precoFio)}',
                 ),
                 const SizedBox(height: 20),
                 EditField(
-                  onTap: () {},
+                  onTap: () {
+                    _editField('Preço da Encomenda', 'precoEncomenda',
+                        widget.model.precoEncomenda.toString(), true);
+                  },
                   title: 'Preço da Encomenda: ',
                   text:
                       '${NumberFormat.currency(locale: 'pt').format(widget.model.precoEncomenda)}',
@@ -239,28 +232,39 @@ class _DetailsDatasheetState extends State<DetailsDatasheet> {
                 ),
                 const SizedBox(height: 10),
                 EditField(
-                  onTap: () {},
-                  title: 'Peso 1 Unids: ',
-                  text: '${NumberFormat('').format(widget.model.pesoUm)} Kg',
+                  onTap: () {
+                    _editField('Peso 1 Unid', 'pesoUm',
+                        widget.model.pesoUm.toString(), true);
+                  },
+                  title: 'Peso 1 Unid: ',
+                  text: '${widget.model.pesoUm} Kg',
                 ),
                 const SizedBox(height: 20),
                 EditField(
-                  onTap: () {},
-                  title: 'Pese 4 Unids: ',
-                  text:
-                      '${NumberFormat('').format(widget.model.pesoQuatro)} Kg',
+                  onTap: () {
+                    _editField('Peso 4 Unids', 'pesoQuatro',
+                        widget.model.pesoQuatro.toString(), true);
+                  },
+                  title: 'Peso 4 Unids: ',
+                  text: '${widget.model.pesoQuatro} Kg',
                 ),
                 const SizedBox(height: 20),
                 EditField(
-                  onTap: () {},
-                  title: 'Pese 6 Unids: ',
-                  text: '${NumberFormat('').format(widget.model.pesoSeis)} Kg',
+                  onTap: () {
+                    _editField('Peso 6 Unids', 'pesoSeis',
+                        widget.model.pesoSeis.toString(), true);
+                  },
+                  title: 'Peso 6 Unids: ',
+                  text: '${widget.model.pesoSeis} Kg',
                 ),
                 const SizedBox(height: 20),
                 EditField(
-                  onTap: () {},
-                  title: 'Pese 8 Unids: ',
-                  text: '${NumberFormat('').format(widget.model.pesoOito)} Kg',
+                  onTap: () {
+                    _editField('Peso 8 Unids', 'pesoOito',
+                        widget.model.pesoOito.toString(), true);
+                  },
+                  title: 'Peso 8 Unids: ',
+                  text: '${widget.model.pesoOito} Kg',
                 ),
               ],
             ),
