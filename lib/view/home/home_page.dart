@@ -31,10 +31,19 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           children: [
             Text('${context.watch<AuthRepository>().user!.email}'),
-            TextButton(
-              onPressed: () =>
-                  context.read<DatasheetRepository>().createDatasheet(),
-              child: Text('Criar Ficha Técnica'),
+            Container(
+              width: double.infinity,
+              height: 60,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    primary: R.color.purplePrimary,
+                    textStyle: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                    )),
+                onPressed: () => Navigator.pushNamed(context, '/datasheets'),
+                child: Text('Ir para ficha técnica'),
+              ),
             ),
             TextButton(
               onPressed: () {

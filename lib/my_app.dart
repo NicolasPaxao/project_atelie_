@@ -1,3 +1,4 @@
+import 'package:atelie/view/datasheets/datashees.dart';
 import 'package:atelie/view/view.dart';
 import 'package:flutter/material.dart';
 
@@ -11,6 +12,9 @@ class MyApp extends StatelessWidget {
       title: 'Ateliê',
       theme: ThemeData(fontFamily: 'Montserrat'),
       home: AuthCheckPage(),
+      routes: {
+        '/datasheets': (context) => DatasheetPage(),
+      },
     );
   }
 }

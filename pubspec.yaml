@@ -21,6 +21,7 @@ dependencies:
   firebase_core:
   firebase_auth:
   cloud_firestore:
+  clipboard:
 
 dev_dependencies:
   flutter_test:

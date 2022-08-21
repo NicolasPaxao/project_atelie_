@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
 
 class ColorsCutom {
-  Color get purplePrimary => Color(0xff886CE4);
+  Color get purplePrimary => Color.fromARGB(255, 79, 65, 124);
 }

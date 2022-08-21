@@ -33,4 +33,12 @@ class DatasheetRepository extends ChangeNotifier {
       throw AuthException(message: e.message!);
     }
   }
+
+  Stream<List<DatasheetModel>> readDatasheet() {
+    return _db
+        .collection('users/${_auth.currentUser!.uid}/datasheets')
+        .snapshots()
+        .map((e) =>
+            e.docs.map((doc) => DatasheetModel.fromJson(doc.data())).toList());
+  }
 }
