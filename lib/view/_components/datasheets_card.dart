@@ -1,8 +1,6 @@
-import 'package:atelie/helpers/resourses.dart';
 import 'package:atelie/models/datasheet_model.dart';
 import 'package:atelie/view/datasheets/details_datasheet.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:intl/intl.dart';
 
 class DatasheetCard extends StatefulWidget {
@@ -27,14 +25,12 @@ class _DatasheetCardState extends State<DatasheetCard> {
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
       child: GestureDetector(
         onTap: () {
-          EasyLoading.show(status: 'Carregando...');
           Navigator.push(
             context,
             MaterialPageRoute(
               builder: (_) => DetailsDatasheet(model: widget.model),
             ),
           );
-          EasyLoading.dismiss();
         },
         child: Container(
           width: double.infinity,

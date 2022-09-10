@@ -1,12 +1,11 @@
 import 'dart:async';
 
+import 'package:atelie/core/domains.dart';
 import 'package:atelie/models/datasheet_model.dart';
-import 'package:atelie/services/datasheets_repository/datasheets_repository.dart';
 import 'package:atelie/view/view.dart';
 import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
 
 class DetailsDatasheet extends StatefulWidget {
   final DatasheetModel model;
@@ -38,12 +37,10 @@ class _DetailsDatasheetState extends State<DetailsDatasheet> {
                 TextButton(
                   onPressed: () {
                     if (isDouble == false) {
-                      context.read<DatasheetRepository>().editDatasheet(
-                          widget.model.uid!,
+                      datasheetRepository.editDatasheet(widget.model.uid!,
                           {"${path}": editingController.text});
                     } else {
-                      context.read<DatasheetRepository>().editDatasheet(
-                          widget.model.uid!,
+                      datasheetRepository.editDatasheet(widget.model.uid!,
                           {"${path}": double.parse(editingController.text)});
                     }
                     Navigator.pop(context);
@@ -126,8 +123,7 @@ Peso 8 Unid - ${widget.model.pesoOito} Kg
                             ),
                             TextButton(
                               onPressed: () {
-                                context
-                                    .read<DatasheetRepository>()
+                                datasheetRepository
                                     .deleteDatasheet(widget.model.uid!);
 
                                 ScaffoldMessenger.of(context).showSnackBar(

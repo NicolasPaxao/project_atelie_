@@ -1,9 +1,11 @@
-import 'package:atelie/helpers/resourses.dart';
+import 'package:atelie/core/domains.dart';
+
+import '../../core/helpers/resourses.dart';
 import 'package:atelie/models/datasheet_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../services/services.dart';
+import '../../core/services/services.dart';
 import '../_components/components.dart';
 
 class DatasheetPage extends StatefulWidget {
@@ -23,7 +25,7 @@ class _DatasheetPageState extends State<DatasheetPage> {
         child: SearchTextField(),
       ),
       body: StreamBuilder<List<DatasheetModel>>(
-        stream: context.read<DatasheetRepository>().readDatasheet(),
+        stream: datasheetRepository.readDatasheet(),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             return Text('Alguma coisa deu errado: ${snapshot.error}');
@@ -107,9 +109,7 @@ class _DatasheetPageState extends State<DatasheetPage> {
                         ),
                         TextButton(
                             onPressed: () {
-                              context
-                                  .read<DatasheetRepository>()
-                                  .createDatasheet();
+                              datasheetRepository.createDatasheet();
                               Navigator.pop(context);
                             },
                             child: Text('TESTE'))

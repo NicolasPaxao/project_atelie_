@@ -119,6 +119,15 @@ mixin _$LoginViewmodel on _LoginViewmodelBase, Store {
         .run(() => super.signIn(context, isLoading: isLoading));
   }
 
+  late final _$signOutAsyncAction =
+      AsyncAction('_LoginViewmodelBase.signOut', context: context);
+
+  @override
+  Future<void> signOut(BuildContext context, {bool isLoading = true}) {
+    return _$signOutAsyncAction
+        .run(() => super.signOut(context, isLoading: isLoading));
+  }
+
   late final _$_LoginViewmodelBaseActionController =
       ActionController(name: '_LoginViewmodelBase', context: context);
 

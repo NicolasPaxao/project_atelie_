@@ -1,7 +1,7 @@
 import 'package:atelie/view/view.dart';
 import 'package:flutter/material.dart';
 
-import '../../helpers/resourses.dart';
+import '../../core/helpers/resourses.dart';
 
 class EditField extends StatefulWidget {
   final void Function() onTap;

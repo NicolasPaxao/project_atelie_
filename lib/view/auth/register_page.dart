@@ -1,10 +1,9 @@
-import 'package:atelie/viewmodel/viewmodel.dart';
+import 'package:atelie/core/domains.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:provider/provider.dart';
 import 'package:validators/validators.dart';
 
-import '../../helpers/resourses.dart';
+import '../../core/helpers/resourses.dart';
 import '../view.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -49,9 +48,8 @@ class _RegisterPageState extends State<RegisterPage> {
                       fit: BoxFit.fitWidth,
                     ),
                     InputTextCustom(
-                      controller:
-                          context.read<RegisterViewmodel>().nameController,
-                      onChaged: context.read<RegisterViewmodel>().setName,
+                      controller: registerViewModel.nameController,
+                      onChaged: registerViewModel.setName,
                       labelText: 'Nome',
                       prefix: Icon(
                         Icons.person,
@@ -66,9 +64,8 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                     const SizedBox(height: 10),
                     InputTextCustom(
-                      controller:
-                          context.read<RegisterViewmodel>().emailController,
-                      onChaged: context.read<RegisterViewmodel>().setEmail,
+                      controller: registerViewModel.emailController,
+                      onChaged: registerViewModel.setEmail,
                       labelText: 'E-mail',
                       keyboard: TextInputType.emailAddress,
                       prefix: Icon(
@@ -86,9 +83,8 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                     const SizedBox(height: 10),
                     InputTextCustom(
-                      controller:
-                          context.read<RegisterViewmodel>().passwordController,
-                      onChaged: context.read<RegisterViewmodel>().setPassword,
+                      controller: registerViewModel.passwordController,
+                      onChaged: registerViewModel.setPassword,
                       labelText: 'Senha',
                       prefix: Icon(
                         Icons.lock,
@@ -121,33 +117,31 @@ class _RegisterPageState extends State<RegisterPage> {
                       child: ElevatedButton(
                         onPressed: () {
                           if (formKey.currentState!.validate()) {
-                            context.read<RegisterViewmodel>().signUp(context);
+                            registerViewModel.signUp(context);
                           }
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children:
-                              (context.read<RegisterViewmodel>().loading ==
-                                      true)
-                                  ? [
-                                      Padding(
-                                          padding: const EdgeInsets.all(16),
-                                          child: SizedBox(
-                                            width: 24,
-                                            height: 24,
-                                            child: CircularProgressIndicator(
-                                              color: Colors.white,
-                                            ),
-                                          ))
-                                    ]
-                                  : [
-                                      Icon(Icons.check),
-                                      SizedBox(width: 5),
-                                      Text(
-                                        'Registrar',
-                                        style: TextStyle(fontSize: 16),
-                                      ),
-                                    ],
+                          children: (registerViewModel.loading == true)
+                              ? [
+                                  Padding(
+                                      padding: const EdgeInsets.all(16),
+                                      child: SizedBox(
+                                        width: 24,
+                                        height: 24,
+                                        child: CircularProgressIndicator(
+                                          color: Colors.white,
+                                        ),
+                                      ))
+                                ]
+                              : [
+                                  Icon(Icons.check),
+                                  SizedBox(width: 5),
+                                  Text(
+                                    'Registrar',
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                ],
                         ),
                         style: ElevatedButton.styleFrom(
                             primary: R.color.purplePrimary),

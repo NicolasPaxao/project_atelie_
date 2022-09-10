@@ -59,6 +59,7 @@ class AuthRepository extends ChangeNotifier {
   signIn(String email, String password) async {
     try {
       await _auth.signInWithEmailAndPassword(email: email, password: password);
+
       _getUser();
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../../helpers/resourses.dart';
+import '../../core/helpers/resourses.dart';
 
 class LayoutCustom extends StatefulWidget {
   final String title;
@@ -32,9 +32,6 @@ class _LayoutCustomState extends State<LayoutCustom> {
         toolbarHeight: 100,
         title: Text(widget.title),
         centerTitle: true,
-        systemOverlayStyle: SystemUiOverlayStyle(
-          statusBarColor: Colors.transparent,
-        ),
         bottom: widget.appBarBottom,
         actions: widget.actions,
       ),

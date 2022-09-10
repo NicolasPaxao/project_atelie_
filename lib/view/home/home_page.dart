@@ -1,7 +1,10 @@
-import 'package:atelie/helpers/resourses.dart';
-import 'package:atelie/services/services.dart';
-import 'package:flutter/material.dart';
+import 'package:atelie/core/domains.dart';
+import 'package:atelie/view/auth/auth_check_page.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
+
+import '../../core/helpers/resourses.dart';
+import 'package:flutter/material.dart';
 
 import '../../models/models.dart';
 
@@ -17,20 +20,33 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: R.color.purplePrimary,
-        toolbarHeight: 120,
-        title: Text('Olá, Artesão\nMãos a obra!'),
+        toolbarHeight: 100,
+        title: Text('Mãos a obra!'),
         centerTitle: true,
         actions: [
-          IconButton(
-              onPressed: () => context.read<AuthRepository>().signOut(),
-              icon: Icon(Icons.exit_to_app))
+          Observer(builder: (_) {
+            return Consumer(
+              builder: (context, value, child) {
+                return IconButton(
+                    onPressed: () {
+                      loginViewModel.signOut(context);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: ((context) => AuthCheckPage())));
+                    },
+                    icon: Icon(Icons.exit_to_app));
+              },
+            );
+          })
         ],
       ),
       body: Center(
         child: Column(
           children: [
-            Text('${context.watch<AuthRepository>().user!.email}'),
+            Text('${authRepository.user!.email}'),
             Container(
               width: double.infinity,
               height: 60,
@@ -59,21 +75,21 @@ class _HomePageState extends State<HomePage> {
                       valorUnit: 180,
                       valorTotal: 180),
                 ];
-                context.read<OrderRepository>().createOrder(
-                      OrderModel(
-                        cliente: 'Nicolas',
-                        email: 'nicolaspaxao@gmail.com',
-                        telefone: '(11)988323723',
-                        dataEntrega: DateTime(2022, 11, 17),
-                        endereco: 'Rua Cajarana nº45',
-                        produtos: list,
-                        anotacoes: 'Anotações',
-                        valorTotal: 5000.0,
-                        valorFrete: 50.0,
-                        status: false,
-                        queue: true,
-                      ),
-                    );
+                orderRepository.createOrder(
+                  OrderModel(
+                    cliente: 'Nicolas',
+                    email: 'nicolaspaxao@gmail.com',
+                    telefone: '(11)988323723',
+                    dataEntrega: DateTime(2022, 11, 17),
+                    endereco: 'Rua Cajarana nº45',
+                    produtos: list,
+                    anotacoes: 'Anotações',
+                    valorTotal: 5000.0,
+                    valorFrete: 50.0,
+                    status: false,
+                    queue: true,
+                  ),
+                );
               },
               child: Text('Criar Ficha Pedido'),
             ),

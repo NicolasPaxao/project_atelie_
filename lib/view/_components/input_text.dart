@@ -1,6 +1,6 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:atelie/helpers/resourses.dart';
 import 'package:flutter/material.dart';
+
+import '../../core/helpers/resourses.dart';
 
 class InputTextCustom extends StatefulWidget {
   final bool? obscureText;

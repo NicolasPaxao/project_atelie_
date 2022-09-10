@@ -1,9 +1,13 @@
-import 'package:atelie/services/services.dart';
+import 'package:atelie/core/domains.dart';
+import 'package:atelie/view/view.dart';
+
+import '../../core/services/services.dart';
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 
-import '../exceptions/exceptions.dart';
+import '../core/exceptions/exceptions.dart';
+
 part 'login_viewmodel.g.dart';
 
 class LoginViewmodel = _LoginViewmodelBase with _$LoginViewmodel;
@@ -44,8 +48,22 @@ abstract class _LoginViewmodelBase with Store {
   Future<void> signIn(BuildContext context, {bool isLoading = true}) async {
     setLoading(isLoading);
     try {
-      await context.read<AuthRepository>().signIn(email!, password!);
+      await authRepository.signIn(email!, password!);
+      setLoading(!isLoading);
+      Navigator.push(
+          context, MaterialPageRoute(builder: ((context) => AuthCheckPage())));
+    } on AuthException catch (e) {
+      setLoading(!isLoading);
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(e.message)));
+    }
+  }
 
+  @action
+  Future<void> signOut(BuildContext context, {bool isLoading = true}) async {
+    setLoading(isLoading);
+    try {
+      await authRepository.signOut();
       setLoading(!isLoading);
     } on AuthException catch (e) {
       setLoading(!isLoading);

@@ -1,10 +1,9 @@
-import 'package:atelie/view/auth/auth.dart';
+import 'package:atelie/core/domains.dart';
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
-
-import '../exceptions/exceptions.dart';
-import '../services/services.dart';
+import '../../core/services/services.dart';
+import '../core/exceptions/exceptions.dart';
 part 'register_viewmodel.g.dart';
 
 class RegisterViewmodel = _RegisterViewmodelBase with _$RegisterViewmodel;
@@ -55,7 +54,7 @@ abstract class _RegisterViewmodelBase with Store {
   Future<void> signUp(BuildContext context, {bool isLoading = true}) async {
     try {
       setLoading(isLoading);
-      await context.read<AuthRepository>().signUp(name!, email!, password!);
+      await authRepository.signUp(name!, email!, password!);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Conta criada com sucesso, artesão $name!'),

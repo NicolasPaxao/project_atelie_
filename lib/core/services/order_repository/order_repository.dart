@@ -1,11 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 
+import '../../../models/models.dart';
 import '../../exceptions/exceptions.dart';
-import '../../models/models.dart';
 
-class OrderRepository extends ChangeNotifier {
+class OrderRepository {
   FirebaseAuth _auth = FirebaseAuth.instance;
   FirebaseFirestore _db = FirebaseFirestore.instance;
 
