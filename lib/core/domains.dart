@@ -8,3 +8,4 @@ final RegisterViewmodel registerViewModel = GetIt.I<RegisterViewmodel>();
 final AuthRepository authRepository = GetIt.I<AuthRepository>();
 final DatasheetRepository datasheetRepository = GetIt.I<DatasheetRepository>();
 final OrderRepository orderRepository = GetIt.I<OrderRepository>();
+final DatasheetViewModel datasheetViewModel = GetIt.I<DatasheetViewModel>();

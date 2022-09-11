@@ -1,5 +1,6 @@
 import 'package:atelie/core/domains.dart';
 import 'package:atelie/view/auth/auth_check_page.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 
@@ -118,7 +119,9 @@ class _HomePageState extends State<HomePage> {
                       title: 'Fila de Espera',
                       image: Icons.queue_rounded),
                   UtilsButton(
-                    onTap: () => Navigator.pushNamed(context, '/datasheets'),
+                    onTap: () {
+                      Navigator.pushNamed(context, '/datasheets');
+                    },
                     title: 'Ficha Técnica',
                     image: Icons.description,
                   ),

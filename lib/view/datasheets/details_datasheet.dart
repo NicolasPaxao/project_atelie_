@@ -1,15 +1,22 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+
 import 'package:atelie/core/domains.dart';
 import 'package:atelie/core/helpers/resourses.dart';
 import 'package:atelie/models/datasheet_model.dart';
 import 'package:atelie/view/view.dart';
-import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 import 'components/menu_details.dart';
 
 class DetailsDatasheet extends StatefulWidget {
   final DatasheetModel model;
-  DetailsDatasheet({Key? key, required this.model}) : super(key: key);
+  final String path;
+  DetailsDatasheet({
+    Key? key,
+    required this.model,
+    required this.path,
+  }) : super(key: key);
 
   @override
   State<DetailsDatasheet> createState() => _DetailsDatasheetState();
@@ -97,8 +104,8 @@ class _DetailsDatasheetState extends State<DetailsDatasheet> {
             flexibleSpace: FlexibleSpaceBar(
               background: Hero(
                 tag: 'image',
-                child: Image.asset(
-                  'assets/sousplat.jpg',
+                child: Image.network(
+                  widget.path,
                   fit: BoxFit.fitWidth,
                 ),
               ),
@@ -229,7 +236,7 @@ class _DetailsDatasheetState extends State<DetailsDatasheet> {
                       text: '${widget.model.pesoOito} Kg',
                     ),
                     SizedBox(
-                      height: 500,
+                      height: 50,
                     )
                   ],
                 ),

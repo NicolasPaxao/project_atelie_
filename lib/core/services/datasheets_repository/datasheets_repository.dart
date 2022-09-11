@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:uuid/uuid.dart';
 
@@ -9,30 +12,29 @@ import '../../exceptions/exceptions.dart';
 class DatasheetRepository extends ChangeNotifier {
   FirebaseAuth _auth = FirebaseAuth.instance;
   FirebaseFirestore _db = FirebaseFirestore.instance;
-  Uuid uuid = Uuid();
-  createDatasheet() async {
+  FirebaseStorage storage = FirebaseStorage.instance;
+
+  Future<void> upload(String path, String uuid) async {
+    File file = File(path);
+    try {
+      String ref = 'images/img-${uuid.toString()}.jpg';
+      await storage.ref(ref).putFile(file);
+    } on FirebaseException catch (e) {
+      throw Exception('Erro no upload: ${e.code}');
+    }
+  }
+
+  createDatasheet(String path, DatasheetModel datasheetModel) async {
     try {
       final docUser = _db
           .collection('users/')
           .doc('${_auth.currentUser!.uid}')
           .collection('datasheets')
-          .doc(uuid.v4());
+          .doc(datasheetModel.uid);
 
-      final datasheet = DatasheetModel(
-        uid: docUser.id,
-        precoEncomenda: 100,
-        precoFio: 120,
-        pesoUm: 50.5,
-        pesoQuatro: 50.5,
-        pesoSeis: 50.5,
-        pesoOito: 50.5,
-        fioUtilizado: 'Fio testeeeee',
-        modeloEncomenda: 'Modelo Teste',
-        tamanhoPeca: '512x810',
-        tempoProducao: '6 Horas',
-      );
+      final datasheet = datasheetModel;
       final json = datasheet.toJson();
-
+      upload(path, docUser.id);
       await docUser.set(json);
     } on FirebaseAuthException catch (e) {
       throw AuthException(message: e.message!);

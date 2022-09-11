@@ -1,6 +1,7 @@
 import 'package:atelie/view/datasheets/datashees.dart';
 import 'package:atelie/view/view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -15,6 +16,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/datasheets': (context) => DatasheetPage(),
       },
+      builder: EasyLoading.init(),
     );
   }
 }

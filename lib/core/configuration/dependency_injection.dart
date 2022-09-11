@@ -11,5 +11,6 @@ abstract class DependencyInjection {
     GetIt.instance.registerSingleton<OrderRepository>(OrderRepository());
     GetIt.instance.registerSingleton<LoginViewmodel>(LoginViewmodel());
     GetIt.instance.registerSingleton<RegisterViewmodel>(RegisterViewmodel());
+    GetIt.instance.registerSingleton<DatasheetViewModel>(DatasheetViewModel());
   }
 }
