@@ -64,6 +64,8 @@ abstract class _LoginViewmodelBase with Store {
     setLoading(isLoading);
     try {
       await authRepository.signOut();
+      Navigator.push(
+          context, MaterialPageRoute(builder: ((context) => AuthCheckPage())));
       setLoading(!isLoading);
     } on AuthException catch (e) {
       setLoading(!isLoading);

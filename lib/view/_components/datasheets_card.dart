@@ -3,6 +3,8 @@ import 'package:atelie/view/datasheets/details_datasheet.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '../../core/helpers/resourses.dart';
+
 class DatasheetCard extends StatefulWidget {
   final String modeloEncomenda;
   final DatasheetModel model;
@@ -33,42 +35,31 @@ class _DatasheetCardState extends State<DatasheetCard> {
           );
         },
         child: Container(
-          width: double.infinity,
-          child: Card(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
-            elevation: 8,
-            child: Padding(
-              padding: const EdgeInsets.all(12),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Modelo: ${widget.model.modeloEncomenda}',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Text(
-                    'Fio Utilizado: ${widget.model.fioUtilizado}',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Text(
-                    'Preço do Produto: ${NumberFormat.currency(locale: 'pt').format(widget.model.precoEncomenda)}',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
+          padding: const EdgeInsets.symmetric(vertical: 5),
+          decoration: BoxDecoration(
+              border: Border(
+                  top: BorderSide(width: 1, color: R.color.purplePrimary),
+                  bottom: BorderSide(width: 1, color: R.color.purplePrimary))),
+          child: Row(
+            children: [
+              Container(
+                width: 70,
+                height: 70,
+                decoration: BoxDecoration(
+                    color: R.color.purplePrimary,
+                    borderRadius: BorderRadius.circular(600)),
               ),
-            ),
+              SizedBox(width: 16),
+              Text(
+                '${widget.model.modeloEncomenda}',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Spacer(),
+              Icon(Icons.keyboard_double_arrow_right)
+            ],
           ),
         ),
       ),

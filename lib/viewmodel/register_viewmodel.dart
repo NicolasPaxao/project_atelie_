@@ -4,6 +4,7 @@ import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import '../../core/services/services.dart';
 import '../core/exceptions/exceptions.dart';
+import '../view/view.dart';
 part 'register_viewmodel.g.dart';
 
 class RegisterViewmodel = _RegisterViewmodelBase with _$RegisterViewmodel;
@@ -69,6 +70,8 @@ abstract class _RegisterViewmodelBase with Store {
         passwordController.clear();
         emailController.clear();
       });
+      Navigator.push(
+          context, MaterialPageRoute(builder: ((context) => AuthCheckPage())));
     } on AuthException catch (e) {
       setLoading(!isLoading);
       ScaffoldMessenger.of(context)

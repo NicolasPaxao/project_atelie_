@@ -32,9 +32,13 @@ dev_dependencies:
     sdk: flutter
   mobx_codegen:
   build_runner:
-
-
+  flutter_launcher_icons:
   flutter_lints: ^2.0.0
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: false
+  image_path: 'assets/icon.png'
 
 flutter:
   uses-material-design: true
@@ -52,3 +56,4 @@ flutter:
             weight: 400
           - asset: assets/fonts/montserrat/Montserrat-SemiBold.ttf
             weight: 600
+

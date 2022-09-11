@@ -22,132 +22,109 @@ class _RegisterPageState extends State<RegisterPage> {
       builder: ((context) {
         return Scaffold(
           appBar: AppBar(
+            foregroundColor: Colors.white,
             backgroundColor: R.color.purplePrimary,
-            toolbarHeight: 120,
+            toolbarHeight: 60,
             title: Text(
               'Cadastre-se para entrar',
               style: TextStyle(
-                fontSize: 20,
+                fontSize: 16,
                 fontWeight: FontWeight.bold,
               ),
             ),
             centerTitle: true,
           ),
           body: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.only(top: 10),
-              child: Form(
-                key: formKey,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.asset(
-                      'assets/novelo.png',
-                      width: 120,
-                      height: 120,
-                      fit: BoxFit.fitWidth,
-                    ),
-                    InputTextCustom(
-                      controller: registerViewModel.nameController,
-                      onChaged: registerViewModel.setName,
-                      labelText: 'Nome',
-                      prefix: Icon(
-                        Icons.person,
-                        color: R.color.purplePrimary,
+            child: Container(
+              height: MediaQuery.of(context).size.height / 1.25,
+              child: Center(
+                child: Form(
+                  key: formKey,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        'assets/novelo.png',
+                        width: 120,
+                        height: 120,
+                        fit: BoxFit.fitWidth,
                       ),
-                      validator: (String? value) {
-                        if (value!.isEmpty) {
-                          return 'Seu nome';
-                        }
-                        return null;
-                      },
-                    ),
-                    const SizedBox(height: 10),
-                    InputTextCustom(
-                      controller: registerViewModel.emailController,
-                      onChaged: registerViewModel.setEmail,
-                      labelText: 'E-mail',
-                      keyboard: TextInputType.emailAddress,
-                      prefix: Icon(
-                        Icons.email,
-                        color: R.color.purplePrimary,
-                      ),
-                      validator: (String? value) {
-                        if (value!.isEmpty) {
-                          return 'Informe o e-mail';
-                        } else if (!isEmail(value)) {
-                          return 'Informe um e-mail válido';
-                        }
-                        return null;
-                      },
-                    ),
-                    const SizedBox(height: 10),
-                    InputTextCustom(
-                      controller: registerViewModel.passwordController,
-                      onChaged: registerViewModel.setPassword,
-                      labelText: 'Senha',
-                      prefix: Icon(
-                        Icons.lock,
-                        color: R.color.purplePrimary,
-                      ),
-                      obscureText: isObscure,
-                      suffix: IconButton(
-                        onPressed: () {
-                          setState(() {
-                            isObscure = !isObscure;
-                          });
-                        },
-                        icon: Icon(
-                          isObscure ? Icons.visibility_off : Icons.visibility,
+                      InputTextCustom(
+                        controller: registerViewModel.nameController,
+                        onChaged: registerViewModel.setName,
+                        labelText: 'Nome',
+                        prefix: Icon(
+                          Icons.person,
                           color: R.color.purplePrimary,
                         ),
+                        validator: (String? value) {
+                          if (value!.isEmpty) {
+                            return 'Seu nome';
+                          }
+                          return null;
+                        },
                       ),
-                      validator: (String? value) {
-                        if (value!.isEmpty) {
-                          return 'Informe a senha';
-                        } else if (value.length < 6) {
-                          return 'Sua senha tem que ter mais de 6 digitos';
-                        }
-                        return null;
-                      },
-                    ),
-                    const SizedBox(height: 10),
-                    Padding(
-                      padding: const EdgeInsets.all(24),
-                      child: ElevatedButton(
+                      const SizedBox(height: 10),
+                      InputTextCustom(
+                        controller: registerViewModel.emailController,
+                        onChaged: registerViewModel.setEmail,
+                        labelText: 'E-mail',
+                        keyboard: TextInputType.emailAddress,
+                        prefix: Icon(
+                          Icons.email,
+                          color: R.color.purplePrimary,
+                        ),
+                        validator: (String? value) {
+                          if (value!.isEmpty) {
+                            return 'Informe o e-mail';
+                          } else if (!isEmail(value)) {
+                            return 'Informe um e-mail válido';
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(height: 10),
+                      InputTextCustom(
+                        controller: registerViewModel.passwordController,
+                        onChaged: registerViewModel.setPassword,
+                        labelText: 'Senha',
+                        prefix: Icon(
+                          Icons.lock,
+                          color: R.color.purplePrimary,
+                        ),
+                        obscureText: isObscure,
+                        suffix: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              isObscure = !isObscure;
+                            });
+                          },
+                          icon: Icon(
+                            isObscure ? Icons.visibility_off : Icons.visibility,
+                            color: R.color.purplePrimary,
+                          ),
+                        ),
+                        validator: (String? value) {
+                          if (value!.isEmpty) {
+                            return 'Informe a senha';
+                          } else if (value.length < 6) {
+                            return 'Sua senha tem que ter mais de 6 digitos';
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(height: 30),
+                      ButtonPrimary(
+                        title: 'Registrar',
                         onPressed: () {
                           if (formKey.currentState!.validate()) {
                             registerViewModel.signUp(context);
                           }
                         },
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: (registerViewModel.loading == true)
-                              ? [
-                                  Padding(
-                                      padding: const EdgeInsets.all(16),
-                                      child: SizedBox(
-                                        width: 24,
-                                        height: 24,
-                                        child: CircularProgressIndicator(
-                                          color: Colors.white,
-                                        ),
-                                      ))
-                                ]
-                              : [
-                                  Icon(Icons.check),
-                                  SizedBox(width: 5),
-                                  Text(
-                                    'Registrar',
-                                    style: TextStyle(fontSize: 16),
-                                  ),
-                                ],
-                        ),
-                        style: ElevatedButton.styleFrom(
-                            primary: R.color.purplePrimary),
-                      ),
-                    ),
-                  ],
+                        loading: registerViewModel.loading,
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),

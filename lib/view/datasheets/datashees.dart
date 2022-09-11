@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 
 import '../../core/services/services.dart';
 import '../_components/components.dart';
+import 'create_ordem_form.dart';
 
 class DatasheetPage extends StatefulWidget {
   DatasheetPage({Key? key}) : super(key: key);
@@ -57,66 +58,7 @@ class _DatasheetPageState extends State<DatasheetPage> {
             builder: (context) {
               final controller = TextEditingController();
               return Dialog(
-                child: Container(
-                  height: 500,
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        SizedBox(height: 20),
-                        TextCustom(
-                            title: 'Criar ficha!', fontS: 18, isBold: true),
-                        Container(
-                          child: InputTextCustom(
-                              labelText: 'Modelo',
-                              validator: null,
-                              controller: controller,
-                              onChaged: (String? value) {}),
-                        ),
-                        Container(
-                          child: InputTextCustom(
-                              labelText: 'Fio Utilizado',
-                              validator: null,
-                              controller: controller,
-                              onChaged: (String? value) {}),
-                        ),
-                        Container(
-                          child: InputTextCustom(
-                              labelText: 'Tamanho da peça',
-                              validator: null,
-                              controller: controller,
-                              onChaged: (String? value) {}),
-                        ),
-                        Container(
-                          child: InputTextCustom(
-                              labelText: 'Tempo de Trabalho',
-                              validator: null,
-                              controller: controller,
-                              onChaged: (String? value) {}),
-                        ),
-                        Container(
-                          child: InputTextCustom(
-                              labelText: 'Preço do Fio',
-                              validator: null,
-                              controller: controller,
-                              onChaged: (String? value) {}),
-                        ),
-                        Container(
-                          child: InputTextCustom(
-                              labelText: 'Preço da encomenda',
-                              validator: null,
-                              controller: controller,
-                              onChaged: (String? value) {}),
-                        ),
-                        TextButton(
-                            onPressed: () {
-                              datasheetRepository.createDatasheet();
-                              Navigator.pop(context);
-                            },
-                            child: Text('TESTE'))
-                      ],
-                    ),
-                  ),
-                ),
+                child: CreateOrderForm(controller: controller),
               );
             },
           );

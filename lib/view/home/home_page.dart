@@ -7,6 +7,7 @@ import '../../core/helpers/resourses.dart';
 import 'package:flutter/material.dart';
 
 import '../../models/models.dart';
+import '../_components/components.dart';
 
 class HomePage extends StatefulWidget {
   static final String routeName = '/home';
@@ -19,11 +20,18 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: R.color.purplePrimary,
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: R.color.purplePrimary,
-        toolbarHeight: 100,
-        title: Text('Mãos a obra!'),
+        foregroundColor: Colors.black,
+        backgroundColor: Colors.white,
+        toolbarHeight: 60,
+        title: Image.asset(
+          'assets/novelo.png',
+          width: 50,
+          height: 50,
+          fit: BoxFit.fitWidth,
+        ),
         centerTitle: true,
         actions: [
           Observer(builder: (_) {
@@ -31,11 +39,37 @@ class _HomePageState extends State<HomePage> {
               builder: (context, value, child) {
                 return IconButton(
                     onPressed: () {
-                      loginViewModel.signOut(context);
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: ((context) => AuthCheckPage())));
+                      showDialog(
+                        context: context,
+                        builder: (_) {
+                          return AlertDialog(
+                            content: TextCustom(
+                              title: 'Deseja realmente sair?',
+                              fontS: 22,
+                              isBold: false,
+                            ),
+                            actionsAlignment: MainAxisAlignment.spaceBetween,
+                            actions: [
+                              IconButton(
+                                onPressed: () => Navigator.pop(context),
+                                icon: Icon(
+                                  Icons.close,
+                                  color: Colors.red,
+                                ),
+                              ),
+                              IconButton(
+                                onPressed: () {
+                                  loginViewModel.signOut(context);
+                                },
+                                icon: Icon(
+                                  Icons.check,
+                                  color: R.color.purplePrimary,
+                                ),
+                              )
+                            ],
+                          );
+                        },
+                      );
                     },
                     icon: Icon(Icons.exit_to_app));
               },
@@ -44,56 +78,54 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       body: Center(
-        child: Column(
-          children: [
-            Text('${authRepository.user!.email}'),
-            Container(
-              width: double.infinity,
-              height: 60,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    primary: R.color.purplePrimary,
-                    textStyle: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                    )),
-                onPressed: () => Navigator.pushNamed(context, '/datasheets'),
-                child: Text('Ir para ficha técnica'),
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TextCustom(
+                  title: 'Bem vinda(o)!',
+                  fontS: 32,
+                  color: Colors.white,
+                  isBold: true),
+              SizedBox(height: 10),
+              TextCustom(
+                  title:
+                      'Aqui você tem as opções para gerênciar suas encomendas!',
+                  fontS: 16,
+                  color: Colors.white,
+                  isBold: false),
+              SizedBox(height: 56),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  UtilsButton(
+                      onTap: () => Navigator.pushNamed(context, '/agendadas'),
+                      title: 'Encomendas',
+                      image: Icons.domain_verification_rounded),
+                  UtilsButton(
+                      onTap: () => Navigator.pushNamed(context, '/realizadas'),
+                      title: 'Histórico',
+                      image: Icons.history_edu_rounded),
+                ],
               ),
-            ),
-            TextButton(
-              onPressed: () {
-                final list = [
-                  ProductModel(
-                      quantidade: 1,
-                      descricao: 'Kit de Supla',
-                      valorUnit: 80,
-                      valorTotal: 80),
-                  ProductModel(
-                      quantidade: 2,
-                      descricao: 'Kit de Supla 2',
-                      valorUnit: 180,
-                      valorTotal: 180),
-                ];
-                orderRepository.createOrder(
-                  OrderModel(
-                    cliente: 'Nicolas',
-                    email: 'nicolaspaxao@gmail.com',
-                    telefone: '(11)988323723',
-                    dataEntrega: DateTime(2022, 11, 17),
-                    endereco: 'Rua Cajarana nº45',
-                    produtos: list,
-                    anotacoes: 'Anotações',
-                    valorTotal: 5000.0,
-                    valorFrete: 50.0,
-                    status: false,
-                    queue: true,
+              SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  UtilsButton(
+                      onTap: () {},
+                      title: 'Fila de Espera',
+                      image: Icons.queue_rounded),
+                  UtilsButton(
+                    onTap: () => Navigator.pushNamed(context, '/datasheets'),
+                    title: 'Ficha Técnica',
+                    image: Icons.description,
                   ),
-                );
-              },
-              child: Text('Criar Ficha Pedido'),
-            ),
-          ],
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
